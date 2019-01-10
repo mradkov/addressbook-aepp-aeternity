@@ -96,7 +96,7 @@ describe('AddressBook Contract', () => {
     let last_name = "Radkov";
     let age = 25;
 
-    // Call add Person function
+    // Call addPerson function
     const addPerson = await owner.contractCall(compiledContract.bytecode, 'sophia', contractInstance.address, "addPerson", {
       args: `(${address}, "${first_name}", "${last_name}", ${age})`,
       options: {
@@ -105,8 +105,8 @@ describe('AddressBook Contract', () => {
       abi: "sophia"
     })
 
-    // Call Get Person function
-    const getPerson = await owner.contractCall(compiledContract.bytecode, 'sophia', contractInstance.address, "getPersonFirstName", {
+    // Call getPersonFirstName function
+    const getPersonFirstName = await owner.contractCall(compiledContract.bytecode, 'sophia', contractInstance.address, "getPersonFirstName", {
       args: `(${address})`,
       options: {
         ttl: config.ttl
@@ -114,7 +114,7 @@ describe('AddressBook Contract', () => {
       abi: "sophia"
     })
 
-    const getPersonResult = await getPerson.decode('string');
+    const getPersonResult = await getPersonFirstName.decode('string');
     assert.equal(getPersonResult.value, first_name, "First name does not match");
   })
 
@@ -124,7 +124,7 @@ describe('AddressBook Contract', () => {
     let last_name = "Radkov";
     let age = 25;
 
-    // Call add Person function
+    // Call addPerson function
     const addPerson = await owner.contractCall(compiledContract.bytecode, 'sophia', contractInstance.address, "addPerson", {
       args: `(${address}, "${first_name}", "${last_name}",${age})`,
       options: {
@@ -133,8 +133,8 @@ describe('AddressBook Contract', () => {
       abi: "sophia"
     })
 
-    // Call Get Person function
-    const getPerson = await owner.contractCall(compiledContract.bytecode, 'sophia', contractInstance.address, "getPersonLastName", {
+    // Call getPersonLastName function
+    const getPersonLastName = await owner.contractCall(compiledContract.bytecode, 'sophia', contractInstance.address, "getPersonLastName", {
       args: `(${address})`,
       options: {
         ttl: config.ttl
@@ -142,17 +142,17 @@ describe('AddressBook Contract', () => {
       abi: "sophia"
     })
 
-    const getPersonResult = await getPerson.decode('string');
+    const getPersonResult = await getPersonLastName.decode('string');
     assert.equal(getPersonResult.value, last_name, "Last name does not match");
   })
 
-  it('Should read person first name correctly', async () => {
+  it('Should read person age correctly', async () => {
     let address = "0x" + Crypto.decodeBase58Check(wallets[0].publicKey.split('_')[1]).toString('hex'); 
     let first_name = "Milen";
     let last_name = "Radkov";
     let age = 25;
 
-    // Call add Person function
+    // Call addPerson function
     const addPerson = await owner.contractCall(compiledContract.bytecode, 'sophia', contractInstance.address, "addPerson", {
       args: `(${address}, "${first_name}", "${last_name}",${age})`,
       options: {
@@ -161,8 +161,8 @@ describe('AddressBook Contract', () => {
       abi: "sophia"
     })
 
-    // Call Get Person function
-    const getPerson = await owner.contractCall(compiledContract.bytecode, 'sophia', contractInstance.address, "getPersonAge", {
+    // Call getPersonAge function
+    const getPersonAge = await owner.contractCall(compiledContract.bytecode, 'sophia', contractInstance.address, "getPersonAge", {
       args: `(${address})`,
       options: {
         ttl: config.ttl
@@ -170,7 +170,7 @@ describe('AddressBook Contract', () => {
       abi: "sophia"
     })
 
-    const getPersonResult = await getPerson.decode('int');
+    const getPersonResult = await getPersonAge.decode('int');
     assert.equal(getPersonResult.value, age, "Age does not match");
   })
 
