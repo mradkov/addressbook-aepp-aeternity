@@ -64,9 +64,6 @@ describe('AddressBook Contract', () => {
     });
   })
 
-  // beforeEach(async () => {
-    
-  // })
   it('Deploying AddressBook Contract', async () => {
     assert(contractInstance, 'Could not deploy the AddressBook Smart Contract'); // Check it is deployed
   })
