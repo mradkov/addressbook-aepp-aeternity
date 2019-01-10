@@ -115,7 +115,7 @@ describe('AddressBook Contract', () => {
     })
 
     const getPersonResult = await getPerson.decode('string');
-    assert.equal(getPersonResult.value, first_name, "Name does not match");
+    assert.equal(getPersonResult.value, first_name, "First name does not match");
   })
 
   it('Should read person last name correctly', async () => {
@@ -143,7 +143,7 @@ describe('AddressBook Contract', () => {
     })
 
     const getPersonResult = await getPerson.decode('string');
-    assert.equal(getPersonResult.value, last_name, "Name does not match");
+    assert.equal(getPersonResult.value, last_name, "Last name does not match");
   })
 
   it('Should read person first name correctly', async () => {
@@ -171,7 +171,7 @@ describe('AddressBook Contract', () => {
     })
 
     const getPersonResult = await getPerson.decode('int');
-    assert.equal(getPersonResult.value, age, "Name does not match");
+    assert.equal(getPersonResult.value, age, "Age does not match");
   })
 
 })
