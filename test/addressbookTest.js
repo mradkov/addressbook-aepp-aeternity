@@ -69,7 +69,7 @@ describe('AddressBook Contract', () => {
   })
 
   it('Should store provided person correctly', async () => {
-    let address = "0xe9bbf604e611b5460a3b3999e9771b6f60417d73ce7c5519e12f7e127a1225ca";  //wallets[0]; 
+    let address = "0x" + Crypto.decodeBase58Check(wallets[0].publicKey.split('_')[1]).toString('hex');  //wallets[0]; 
     let first_name = "Milen";
     let last_name = "Radkov";
     let age = 25;
@@ -84,10 +84,10 @@ describe('AddressBook Contract', () => {
     })
 
     const addPersonResult = await addPerson.decode('bool');
-    assert.equal(addPersonResult.value, true, "Person is not added successfuly");
+    assert.equal(addPersonResult.value, true, "Person is not added successfully");
   })
 
-  it('Should read person first name correctly', async () => {
+  it('Should get person data correctly correctly', async () => {
     let address = "0x" + Crypto.decodeBase58Check(wallets[0].publicKey.split('_')[1]).toString('hex'); 
     let first_name = "Milen";
     let last_name = "Radkov";
@@ -102,8 +102,8 @@ describe('AddressBook Contract', () => {
       abi: "sophia"
     })
 
-    // Call getPersonFirstName function
-    const getPersonFirstName = await owner.contractCall(compiledContract.bytecode, 'sophia', contractInstance.address, "getPersonFirstName", {
+    // Call getPerson function
+    const getPerson = await owner.contractCall(compiledContract.bytecode, 'sophia', contractInstance.address, "getPerson", {
       args: `(${address})`,
       options: {
         ttl: config.ttl
@@ -111,64 +111,10 @@ describe('AddressBook Contract', () => {
       abi: "sophia"
     })
 
-    const getPersonResult = await getPersonFirstName.decode('string');
-    assert.equal(getPersonResult.value, first_name, "First name does not match");
+   	const getPersonResult = await getPerson.decode('(string,string,int)');
+	
+	assert.equal(getPersonResult.value[0].value, first_name, "Person first name does not match");
+	assert.equal(getPersonResult.value[1].value, last_name, "Person last name not match");
+	assert.equal(getPersonResult.value[2].value, age, "Person age does not match");
   })
-
-  it('Should read person last name correctly', async () => {
-    let address = "0x" + Crypto.decodeBase58Check(wallets[0].publicKey.split('_')[1]).toString('hex'); 
-    let first_name = "Milen";
-    let last_name = "Radkov";
-    let age = 25;
-
-    // Call addPerson function
-    const addPerson = await owner.contractCall(compiledContract.bytecode, 'sophia', contractInstance.address, "addPerson", {
-      args: `(${address}, "${first_name}", "${last_name}",${age})`,
-      options: {
-        ttl: config.ttl
-      },
-      abi: "sophia"
-    })
-
-    // Call getPersonLastName function
-    const getPersonLastName = await owner.contractCall(compiledContract.bytecode, 'sophia', contractInstance.address, "getPersonLastName", {
-      args: `(${address})`,
-      options: {
-        ttl: config.ttl
-      },
-      abi: "sophia"
-    })
-
-    const getPersonResult = await getPersonLastName.decode('string');
-    assert.equal(getPersonResult.value, last_name, "Last name does not match");
-  })
-
-  it('Should read person age correctly', async () => {
-    let address = "0x" + Crypto.decodeBase58Check(wallets[0].publicKey.split('_')[1]).toString('hex'); 
-    let first_name = "Milen";
-    let last_name = "Radkov";
-    let age = 25;
-
-    // Call addPerson function
-    const addPerson = await owner.contractCall(compiledContract.bytecode, 'sophia', contractInstance.address, "addPerson", {
-      args: `(${address}, "${first_name}", "${last_name}",${age})`,
-      options: {
-        ttl: config.ttl
-      },
-      abi: "sophia"
-    })
-
-    // Call getPersonAge function
-    const getPersonAge = await owner.contractCall(compiledContract.bytecode, 'sophia', contractInstance.address, "getPersonAge", {
-      args: `(${address})`,
-      options: {
-        ttl: config.ttl
-      },
-      abi: "sophia"
-    })
-
-    const getPersonResult = await getPersonAge.decode('int');
-    assert.equal(getPersonResult.value, age, "Age does not match");
-  })
-
 })
