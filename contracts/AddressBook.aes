@@ -1,32 +1,23 @@
 contract AddressBook =
+   record state  = { people : map(address, person) }
 
-   record person = {
-                     first_name : string,
-                     last_name : string,
-                     age : int
-                  }
+   record person = { first_name : string
+                   , last_name : string
+                   , age : int }
 
-   record state  = { 
-                     people : map(address, person)
-                  }
+   entrypoint init() = { people = {} }
 
-   public stateful function init() = { people = {} }
+   stateful entrypoint add_person(address: address, first_name: string, last_name: string, age: int) =
+      put(state{ people[address] = {first_name = first_name, last_name = last_name, age = age} })
 
-   private function lookupByAddress(k : address, m, v) =
-      switch(Map.lookup(k, m))
-         None    => v
-         Some(x) => x
-
-   public stateful function addPerson(address: address, first_name: string, last_name: string, age: int) : bool =
-      put(state{
-         people[address] = {first_name = first_name, last_name = last_name, age = age}
-         })
-      
-      true
-
-   public function getPerson(address : address) : person = 
-      let personFound = lookupByAddress(address, state.people, {first_name = "false", last_name = "false", age = 0})
+   entrypoint get_person(address : address) : person = 
+      let personFound = lookup_by_address(address, state.people, {first_name = "false", last_name = "false", age = 0})
       if (personFound.first_name == "false" && personFound.last_name == "false" && personFound.age == 0)
          abort("No data for that person")
       else
          personFound
+
+   function lookup_by_address(k : address, m, v) =
+      switch(Map.lookup(k, m))
+         None    => v
+         Some(x) => x
