@@ -9,7 +9,7 @@ contract AddressBook =
 
    stateful entrypoint add_person(person_address: address, first_name': string, last_name': string, age: int) =
       let new_person : person = { first_name = first_name', last_name = last_name', age = age }
-      put(state{ people[person_address] = new_person })
+      put(state{ people[person_address] = Some(new_person) })
 
    entrypoint get_person(person_address : address) : option(person) = 
       switch(Map.lookup(person_address, state.people))
