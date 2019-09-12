@@ -10,8 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "@aeternity/aepp-sdk": "1.0.1",
-    "forgae": "git+https://github.com/aeternity/aepp-forgae-js.git",
-    "forgae-lib": "2.0.0",
+    "aeproject-lib": "1.0.0",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "yarn": "1.17.3"
   }
 }
